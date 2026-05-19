@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventFlow | Event Planner</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="background-glow glow-1"></div>
+  <div class="background-glow glow-2"></div>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="hero-text">
+        <span class="badge">✨ Smart Event Planner</span>
+        <h1>EventFlow</h1>
+        <p>
+          Create beautiful events, invite your guests,
+          and manage registrations effortlessly.
+        </p>
+      </div>
+
+      <div class="hero-card">
+        <div class="pulse-circle"></div>
+      </div>
+    </section>
+
+    <section class="grid">
+
+      <!-- Event Setup -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Create Event</h2>
+          <p>Set up your special event details.</p>
+        </div>
+
+        <form id="eventForm">
+          <div class="input-group">
+            <label>Event Name</label>
+            <input type="text" id="eventName" placeholder="Birthday Party" required />
+          </div>
+
+          <div class="input-group">
+            <label>Event Date</label>
+            <input type="date" id="eventDate" required />
+          </div>
+
+          <div class="input-group">
+            <label>Description</label>
+            <textarea id="eventDescription" rows="4" placeholder="Describe your event..." required></textarea>
+          </div>
+
+          <div class="input-group">
+            <label>Personalized Invite Message</label>
+            <textarea id="inviteMessage" rows="4" placeholder="Hey! We'd love to see you at our event..." required></textarea>
+          </div>
+
+          <button type="submit" class="primary-btn">
+            Save Event
+          </button>
+        </form>
+      </div>
+
+      <!-- Event Preview -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Live Preview</h2>
+          <p>Your guests will see this information.</p>
+        </div>
+
+        <div class="preview-box">
+          <h3 id="previewTitle">No event yet</h3>
+
+          <div class="preview-date" id="previewDate">
+            Select a date
+          </div>
+
+          <p id="previewDescription">
+            Event description will appear here.
+          </p>
+
+          <div class="invite-box">
+            <h4>Invite Message</h4>
+            <p id="previewInvite">
+              Your invite message will appear here.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Registration Section -->
+    <section class="card attendees-section">
+      <div class="card-header">
+        <h2>Guest Registration</h2>
+        <p>Guests can join your event below.</p>
+      </div>
+
+      <form id="guestForm" class="guest-form">
+        <div class="input-group">
+          <label>Name</label>
+          <input type="text" id="guestName" placeholder="John" required />
+        </div>
+
+        <div class="input-group">
+          <label>Surname</label>
+          <input type="text" id="guestSurname" placeholder="Doe" required />
+        </div>
+
+        <button type="submit" class="primary-btn">
+          Join Event
+        </button>
+      </form>
+
+      <div class="attendees-list-container">
+        <div class="attendees-top">
+          <h3>Registered Guests</h3>
+          <span id="guestCount">0 Guests</span>
+        </div>
+
+        <ul id="attendeesList"></ul>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
