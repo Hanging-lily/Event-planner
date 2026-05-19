@@ -1,4 +1,5 @@
-// Runtime-only storage
+// Runtime storage
+const events = [];
 const guests = [];
 
 // Forms
@@ -11,38 +12,66 @@ const previewDate = document.getElementById("previewDate");
 const previewDescription = document.getElementById("previewDescription");
 const previewInvite = document.getElementById("previewInvite");
 
-// Guest elements
+// Guests
 const attendeesList = document.getElementById("attendeesList");
 const guestCount = document.getElementById("guestCount");
 
-// Event Creation
+// Events
+const eventsContainer =
+  document.getElementById("eventsContainer");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+// CREATE EVENT
 eventForm.addEventListener("submit", (e) => {
+
   e.preventDefault();
 
-  const eventName = document.getElementById("eventName").value;
-  const eventDate = document.getElementById("eventDate").value;
+  const eventName =
+    document.getElementById("eventName").value;
+
+  const eventDate =
+    document.getElementById("eventDate").value;
+
   const eventDescription =
     document.getElementById("eventDescription").value;
 
   const inviteMessage =
     document.getElementById("inviteMessage").value;
 
+  // Live Preview
   previewTitle.textContent = eventName;
-
   previewDate.textContent = formatDate(eventDate);
-
   previewDescription.textContent = eventDescription;
-
   previewInvite.textContent = inviteMessage;
 
-  showNotification("Event saved successfully!");
+  // Save Event Runtime
+  const event = {
+    id: Date.now(),
+    eventName,
+    eventDate,
+    eventDescription,
+    inviteMessage
+  };
+
+  events.push(event);
+
+  renderEvents();
+
+  eventForm.reset();
+
+  showNotification("Event created successfully!");
 });
 
-// Guest Registration
+// REGISTER GUEST
 guestForm.addEventListener("submit", (e) => {
+
   e.preventDefault();
 
-  const name = document.getElementById("guestName").value.trim();
+  const name =
+    document.getElementById("guestName").value.trim();
+
   const surname =
     document.getElementById("guestSurname").value.trim();
 
@@ -60,10 +89,65 @@ guestForm.addEventListener("submit", (e) => {
 
   guestForm.reset();
 
-  showNotification(`${name} ${surname} joined the event!`);
+  showNotification(
+    `${name} ${surname} joined the event!`
+  );
 });
 
-// Render Guests
+// RENDER EVENTS
+function renderEvents() {
+
+  eventsContainer.innerHTML = "";
+
+  if (events.length === 0) {
+
+    eventsContainer.innerHTML = `
+      <div class="empty-state">
+        No events created yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  events.forEach((event) => {
+
+    const card = document.createElement("div");
+
+    card.className = "event-card";
+
+    card.innerHTML = `
+      <div class="event-card-content">
+
+        <h3>${event.eventName}</h3>
+
+        <div class="event-date">
+          ${formatDate(event.eventDate)}
+        </div>
+
+        <p class="event-description">
+          ${event.eventDescription}
+        </p>
+
+        <div class="event-invite">
+          <h4>Invite Message</h4>
+          <p>${event.inviteMessage}</p>
+        </div>
+
+        <div class="event-footer">
+          <div class="event-badge">
+            Active Event
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    eventsContainer.appendChild(card);
+  });
+}
+
+// RENDER GUESTS
 function renderGuests() {
 
   attendeesList.innerHTML = "";
@@ -71,6 +155,7 @@ function renderGuests() {
   guests.forEach((guest) => {
 
     const li = document.createElement("li");
+
     li.className = "attendee-item";
 
     li.innerHTML = `
@@ -90,7 +175,7 @@ function renderGuests() {
     `${guests.length} Guest${guests.length !== 1 ? "s" : ""}`;
 }
 
-// Date Formatter
+// FORMAT DATE
 function formatDate(dateString) {
 
   if (!dateString) return "Select a date";
@@ -105,10 +190,11 @@ function formatDate(dateString) {
   });
 }
 
-// Notification
+// NOTIFICATIONS
 function showNotification(message) {
 
-  const notification = document.createElement("div");
+  const notification =
+    document.createElement("div");
 
   notification.textContent = message;
 
@@ -118,11 +204,13 @@ function showNotification(message) {
   notification.style.padding = "14px 20px";
   notification.style.background =
     "linear-gradient(135deg, #7c3aed, #06b6d4)";
+
   notification.style.color = "white";
   notification.style.borderRadius = "14px";
   notification.style.fontWeight = "600";
   notification.style.boxShadow =
     "0 10px 30px rgba(0,0,0,0.35)";
+
   notification.style.zIndex = "9999";
 
   document.body.appendChild(notification);
